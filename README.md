@@ -6,7 +6,7 @@
 [![GitHub CI](https://github.com/gsantner/markor/workflows/CI/badge.svg)](https://github.com/gsantner/markor/actions)
 
 
-# Markor
+# Markor 
 
 > Support for uploading images to the image host when they are not located in the .md file's folder. Github/Gitlab repositories are currently supported as image host
 > 
