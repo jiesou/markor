@@ -183,6 +183,7 @@ public class AttachImageOrLinkDialog {
                             byteArrayOutputStream.flush();
                             byteArrayOutputStream.close();
                             String imageBase64 = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+                            byteArrayOutputStream = null;
                             // make fileLocation
                             @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat(_appSettings.getImageHostFileLocation());
                             String fileLocation = timeFormat.format(new Date())
@@ -244,10 +245,10 @@ public class AttachImageOrLinkDialog {
                                 try (Response response = client.newCall(httpRequest).execute()) {
                                     JSONObject oJsonObj = JSONObject.parseObject(Objects.requireNonNull(response.body()).string());
                                     String oBranch = oJsonObj.getString("branch");
-                                    String oFileLocation = URLDecoder.decode(oJsonObj.getString("file_path"), "UTF-8");
+                                    String oFileLocation = oJsonObj.getString("file_path");
                                     activity.runOnUiThread(() -> {
-                                        String oUrl;
                                         try {
+                                            String oUrl;
                                             if ("".equals(imageHostCustomOutput)) {
                                                 oUrl = String.format("https://gitlab.com/%s/-/raw/%s/%s", repo, oBranch, oFileLocation);
                                             } else {
