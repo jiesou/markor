@@ -252,6 +252,47 @@
                 android:title="@string/file_description_format" />
         </PreferenceCategory>
 
+        <PreferenceCategory android:title="@string/image_host">
+            <ListPreference
+                android:defaultValue="0"
+                android:dialogTitle="@string/use"
+                android:entries="@array/pref_arrdisp__image_host_use"
+                android:entryValues="@array/pref_arrkeys__image_host_use"
+                android:icon="@drawable/ic_save_black_24dp"
+                android:key="@string/pref_key__image_host_use"
+                android:title="@string/use" />
+            <android.support.v7.preference.EditTextPreference
+                android:icon="@drawable/ic_baseline_vpn_key_24dp"
+                android:dialogMessage="@string/image_host_token_description"
+                android:key="@string/pref_key__image_host_token"
+                android:title="@string/token" />
+            <android.support.v7.preference.EditTextPreference
+                android:icon="@drawable/ic_archive_black_24dp"
+                android:key="@string/pref_key__image_host_repo"
+                android:dialogMessage="@string/repo_example"
+                android:title="@string/image_host_repo" />
+            <android.support.v7.preference.EditTextPreference
+                android:icon="@drawable/ic_insert_drive_file_black_24dp"
+                android:defaultValue="'Markor/'yyyy'/'MM'/'SSS'-{name}'"
+                android:key="@string/pref_key__image_host_save_location"
+                android:dialogMessage="@string/save_location_description"
+                android:title="@string/save_location" />
+            <android.support.v7.preference.EditTextPreference
+                android:icon="@drawable/ic_link_black_24dp"
+                android:defaultValue=""
+                android:key="@string/pref_key__image_host_custom_output"
+                android:dialogMessage="@string/custom_output_description"
+                android:title="@string/custom_image_host_output" />
+            <android.support.v7.preference.SeekBarPreference
+                android:defaultValue="20"
+                android:icon="@drawable/ic_image_black_24dp"
+                android:key="@string/pref_key__image_compression_rate"
+                android:max="100"
+                android:summary="@string/image_compression_rate_100_no_compression"
+                android:title="@string/image_compress"
+                app:min="0" />
+        </PreferenceCategory>
+
         <PreferenceCategory android:title="@string/backup">
             <Preference
                 android:icon="@drawable/ic_save_black_24dp"

@@ -452,4 +452,23 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="share_into_format">Share into - Format</string>
     <string name="auto_format">Auto-format</string>
     <string name="insert_snippet">Insert snippet</string>
+    <string name="image_host">Image host</string>
+    <string name="processing" >Processing...</string>
+    <string name="upload_failed">Upload failed: </string>
+    <string name="token">Personal Access Token</string>
+    <string name="image_host_token_description">Github https://github.com/settings/tokens\nGitlab https://gitlab.com/-/profile/personal_access_tokens\nRequires write access to the repository.</string>
+    <string name="pref_key__image_host_token" translatable="false">pref_key__image_host_token</string>
+    <string name="image_host_repo">Repository</string>
+    <string name="pref_key__image_host_repo" translatable="false">pref_key__image_host_repo</string>
+    <string name="repo_example">For example: gsantner/markor@master</string>
+    <string name="save_location_description">Supports formatting time. No extension required\n{name}: original file name</string>
+    <string name="pref_key__image_host_save_location" translatable="false">pref_key__image_host_save_location</string>
+    <string name="use">Use</string>
+    <string name="system">System</string>
+    <string name="image_compress">Image Compression</string>
+    <string name="image_compression_rate_100_no_compression">Set the image compression rate before upload, set to 100 which means no compression, support JPEG and WebP</string>
+    <string name="pref_key__image_compression_rate" translatable="false">pref_key__image_compression_rate</string>
+    <string name="pref_key__image_host_custom_output" translatable="false">pref_key__image_host_custom_output</string>
+    <string name="custom_output_description">Customize the output link after image upload, leave it blank and use Github/lab RAW\n{repo}: repository and owner (e.g. gsantner/markor)\n{branch}: branch of the repository\n{location}: relative path to upload\nFor example, to use JsDelivr as an image CDN, set it to\nhttps://cdn.jsdelivr.net/gh/{repo}@{branch}/{location}</string>
+    <string name="custom_image_host_output" >Custom image host output</string>
 </resources>

@@ -7,6 +7,9 @@
 
 
 # Markor
+
+> Support for uploading images to the image host when they are not located in the .md file's folder. Github/Gitlab repositories are currently supported as image host
+> 
 <img src="/app/src/main/ic_launcher-web.png" align="left" width="128" hspace="10" vspace="10">
 <b>Text editor - Notes &amp; ToDo (for Android)</b>.
 <br/>Simple and lightweight, supporting Markdown, todo.txt, Zim & more!<br/><br/>

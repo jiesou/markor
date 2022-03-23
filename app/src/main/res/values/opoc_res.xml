@@ -44,7 +44,7 @@
     <!-- Navigation bar color -->
     <string name="pref_key__navigationbar_color" translatable="false">pref_key__navigationbar_color</string>
     <string-array name="pref_arrdisp__navigationbar_color" translatable="false">
-        <item translatable="false">System</item>
+        <item translatable="false">@string/system</item>
         <item translatable="false">@string/black</item>
         <item translatable="false">@string/white</item>
     </string-array>

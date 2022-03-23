@@ -224,6 +224,18 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
         return getBool(R.string.pref_key__is_disallow_screenshots, false);
     }
 
+    public String getImageHostToken() { return getString(R.string.pref_key__image_host_token, ""); }
+
+    public String getImageHostRepo() { return getString(R.string.pref_key__image_host_repo, ""); }
+
+    public String getImageHostFileLocation() { return getString(R.string.pref_key__image_host_save_location, "'Markor/'yyyy'/'MM'/'SSS'-{name}'"); }
+
+    public String getImageHostUse() { return getString(R.string.pref_key__image_host_use, "0"); }
+
+    public String getImageHostCustomOutput() { return getString(R.string.pref_key__image_host_custom_output, ""); }
+
+    public int getImageCompressionRate() { return getInt(R.string.pref_key__image_compression_rate, 20); }
+
     public String getLanguage() {
         return getString(R.string.pref_key__language, "");
     }

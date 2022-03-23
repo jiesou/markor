@@ -1,3 +1,4 @@
+
 ##############################################################################################################################
 # # Cleanup:
 #const sleep = ms => () => new Promise((resolve, reject) => window.setTimeout(resolve, ms));
@@ -34,8 +35,7 @@ jobs:
     - name: "Setup: Java"
       uses: actions/setup-java@v1
       with:
-        java-version: 1.8
-
+        java-version: 11
     - name: "Setup: Install additional dependencies"
       run: sudo apt-get install -y ispell
 
