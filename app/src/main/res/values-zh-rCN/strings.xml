@@ -434,7 +434,6 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="share_into_format_prefix_for_text_shared">共享到 Markor的文本格式/前缀。关注安卓的 SimpleDateFormat 规则。\n\n使用占位符\'%s\' (周围为单引号) 来定位共享文本。 如果未指定，共享文本将附加，并使用格式作为前缀。</string>
     <string name="share_into_format">分享到 - 格式</string>
     <string name="auto_format">自动格式</string>
-    <string name="insert_snippet">Insert snippet</string>
     <string name="image_host">图床</string>
     <string name="processing">处理中...</string>
     <string name="upload_failed">上传失败：</string>
@@ -449,4 +448,5 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="image_compression_rate_100_no_compression">设置上传前的图片压缩率，设为 100 即不压缩，支持 JPEG 和 WebP</string>
     <string name="custom_output_description">自定义图片上传后的输出链接，留空则使用 Github/lab RAW\n{repo}: 仓库和所有者（例如 gsantner/markor）\n{branch}: 仓库分支\n{location}：上传的相对路径\n例如，要使用 JsDelivr 作为图片 CDN，请将其设置为\nhttps://cdn.jsdelivr.net/gh/{repo}@{branch}/{location}</string>
     <string name="custom_image_host_output">自定义图床输出</string>
+    <string name="insert_snippet">插入片段</string>
 </resources>
