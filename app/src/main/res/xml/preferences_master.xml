@@ -268,9 +268,9 @@
                 android:title="@string/token" />
             <android.support.v7.preference.EditTextPreference
                 android:icon="@drawable/ic_archive_black_24dp"
-                android:key="@string/pref_key__image_host_repo"
-                android:dialogMessage="@string/repo_example"
-                android:title="@string/image_host_repo" />
+                android:key="@string/pref_key__image_host_storage"
+                android:dialogMessage="@string/storage_example"
+                android:title="@string/image_host_storage" />
             <android.support.v7.preference.EditTextPreference
                 android:icon="@drawable/ic_insert_drive_file_black_24dp"
                 android:defaultValue="'Markor/'yyyy'/'MM'/'SSS'-{name}'"

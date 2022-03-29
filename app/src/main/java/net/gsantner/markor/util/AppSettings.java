@@ -226,7 +226,7 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
 
     public String getImageHostToken() { return getString(R.string.pref_key__image_host_token, ""); }
 
-    public String getImageHostRepo() { return getString(R.string.pref_key__image_host_repo, ""); }
+    public String getImageHostStorage() { return getString(R.string.pref_key__image_host_storage, ""); }
 
     public String getImageHostFileLocation() { return getString(R.string.pref_key__image_host_save_location, "'Markor/'yyyy'/'MM'/'SSS'-{name}'"); }
 

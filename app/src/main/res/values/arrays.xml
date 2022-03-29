@@ -152,9 +152,11 @@
     <string-array name="pref_arrdisp__image_host_use" translatable="false">
         <item translatable="false">Github</item>
         <item translatable="false">Gitlab</item>
+        <item translatable="false">Qiniu</item>
     </string-array>
     <string-array name="pref_arrkeys__image_host_use" translatable="false">
         <item translatable="false">0</item>
         <item translatable="false">1</item>
+        <item translatable="false">2</item>
     </string-array>
 </resources>

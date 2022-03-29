@@ -21,6 +21,12 @@ import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.Configuration;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
+import com.qiniu.android.storage.UploadOptions;
+import com.qiniu.util.Auth;
 
 import net.gsantner.markor.R;
 import net.gsantner.markor.format.TextFormat;
@@ -35,9 +41,12 @@ import net.gsantner.opoc.util.FileUtils;
 import net.gsantner.opoc.util.GashMap;
 
 import org.apache.commons.io.FilenameUtils;
+import org.json.JSONException;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -157,15 +166,19 @@ public class AttachImageOrLinkDialog {
                     new Thread(() -> {
                         try {
                             // make
-                            String repoAndBranch = _appSettings.getImageHostRepo();
-                            String repo = repoAndBranch.substring(0, repoAndBranch.lastIndexOf("@"));
-                            String branch = repoAndBranch.substring(repoAndBranch.lastIndexOf("@") + 1);
+                            String Storage = _appSettings.getImageHostStorage();
+                            String repo = null;
+                            String branch = null;
+                            int storageIndex = Storage.lastIndexOf("@");
+                            if (storageIndex != -1) {
+                                repo = Storage.substring(0, storageIndex);
+                                branch = Storage.substring(storageIndex + 1);
+                            }
                             String fullFileName = file.getName();
                             String fileName = FilenameUtils.getBaseName(fullFileName);
                             String fileExtension = FilenameUtils.getExtension(fullFileName);
                             // image compression
                             int compressionRate = _appSettings.getImageCompressionRate();
-                            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                             Bitmap.CompressFormat compressFormat;
                             switch (fileExtension) {
@@ -179,26 +192,24 @@ public class AttachImageOrLinkDialog {
                                 default:
                                     compressFormat = Bitmap.CompressFormat.PNG;
                             }
-                            bitmap.compress(compressFormat, compressionRate, byteArrayOutputStream);
+                            BitmapFactory.decodeFile(file.getAbsolutePath()).compress(compressFormat, compressionRate, byteArrayOutputStream);
                             byteArrayOutputStream.flush();
-                            byteArrayOutputStream.close();
-                            String imageBase64 = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                            byteArrayOutputStream = null;
                             // make fileLocation
                             @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat(_appSettings.getImageHostFileLocation());
                             String fileLocation = timeFormat.format(new Date())
                                     .replace("{name}", fileName)
                                     + "." + fileExtension;
-                            JSONObject iJsonObj = new JSONObject();
-                            OkHttpClient client = new OkHttpClient().newBuilder().build();
                             String imageHostCustomOutput = _appSettings.getImageHostCustomOutput();
                             String imageHostUse = _appSettings.getImageHostUse();
                             if ("0".equals(imageHostUse)) {
                                 // Github doc https://docs.github.com/cn/rest/reference/repos#create-or-update-file-contents
+                                JSONObject iJsonObj = new JSONObject();
+                                OkHttpClient client = new OkHttpClient().newBuilder().build();
                                 iJsonObj.put("message", "MarkorUpload: " + fileName);
-                                iJsonObj.put("content", imageBase64);
+                                iJsonObj.put("content", Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT));
                                 RequestBody iBody = RequestBody.create(JSON.toJSONString(iJsonObj), MediaType.parse("application/json; charset=utf-8"));
                                 // make body
+                                assert branch != null;
                                 Request httpRequest = new Request.Builder()
                                         .url(String.format("https://api.github.com/repos/%s/contents/%s", repo, fileLocation))
                                         .addHeader("Authorization", "token " + _appSettings.getImageHostToken())
@@ -207,6 +218,8 @@ public class AttachImageOrLinkDialog {
                                         .build();
                                 try (Response response = client.newCall(httpRequest).execute()) {
                                     JSONObject oJsonObj = JSONObject.parseObject(Objects.requireNonNull(response.body()).string());
+                                    String finalBranch = branch;
+                                    String finalRepo = repo;
                                     activity.runOnUiThread(() -> {
                                         String oUrl;
                                         try {
@@ -214,8 +227,8 @@ public class AttachImageOrLinkDialog {
                                                 oUrl = URLDecoder.decode(oJsonObj.getJSONObject("content").getString("download_url"), "UTF-8");
                                             } else {
                                                 oUrl = imageHostCustomOutput
-                                                        .replace("{repo}", repo)
-                                                        .replace("{branch}", branch)
+                                                        .replace("{repo}", finalRepo)
+                                                        .replace("{branch}", finalBranch)
                                                         .replace("{location}", URLDecoder.decode(oJsonObj.getJSONObject("content").getString("path"), "UTF-8"));
                                             }
                                             inputPathUrl.setText(oUrl);
@@ -229,12 +242,14 @@ public class AttachImageOrLinkDialog {
                                     e.printStackTrace();
                                     activity.runOnUiThread(() -> inputPathUrl.setText(activity.getString(R.string.upload_failed) + "HTTP/JSON " + e));
                                 }
-                            } else {
+                            } else if ("1".equals(imageHostUse)) {
                                 // Gitlab doc https://docs.gitlab.com/ee/api/repository_files.html#create-new-file-in-repository
+                                JSONObject iJsonObj = new JSONObject();
+                                OkHttpClient client = new OkHttpClient().newBuilder().build();
                                 iJsonObj.put("commit_message", "MarkorUpload: " + file.getName());
                                 iJsonObj.put("branch", branch);
                                 iJsonObj.put("encoding", "base64");
-                                iJsonObj.put("content", imageBase64);
+                                iJsonObj.put("content", Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT));
                                 RequestBody inBody = RequestBody.create(JSON.toJSONString(iJsonObj), MediaType.parse("application/json; charset=utf-8"));
                                 // make body
                                 Request httpRequest = new Request.Builder()
@@ -246,14 +261,15 @@ public class AttachImageOrLinkDialog {
                                     JSONObject oJsonObj = JSONObject.parseObject(Objects.requireNonNull(response.body()).string());
                                     String oBranch = oJsonObj.getString("branch");
                                     String oFileLocation = oJsonObj.getString("file_path");
+                                    String finalRepo1 = repo;
                                     activity.runOnUiThread(() -> {
                                         try {
                                             String oUrl;
                                             if ("".equals(imageHostCustomOutput)) {
-                                                oUrl = String.format("https://gitlab.com/%s/-/raw/%s/%s", repo, oBranch, oFileLocation);
+                                                oUrl = String.format("https://gitlab.com/%s/-/raw/%s/%s", finalRepo1, oBranch, oFileLocation);
                                             } else {
                                                 oUrl = imageHostCustomOutput
-                                                        .replace("{repo}", repo)
+                                                        .replace("{repo}", finalRepo1)
                                                         .replace("{branch}", oBranch)
                                                         .replace("{location}", oFileLocation);
                                             }
@@ -268,7 +284,43 @@ public class AttachImageOrLinkDialog {
                                     e.printStackTrace();
                                     activity.runOnUiThread(() -> inputPathUrl.setText(activity.getString(R.string.upload_failed) + "HTTP/JSON " + e));
                                 }
+                            } else {
+                                try {
+                                    //Qiniu doc https://developer.qiniu.com/kodo/1236/android
+                                    Configuration config = new Configuration.Builder().build();
+                                    UploadManager uploadManager = new UploadManager(config);
+                                    String Token = _appSettings.getImageHostToken();
+                                    int tokenIndex = Token.lastIndexOf("|");
+                                    String token = Auth.create(Token.substring(0, tokenIndex), Token.substring(tokenIndex + 1)).uploadToken(Storage);
+                                    uploadManager.put(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()), null, -1, "fileName", fileLocation, token, new UpCompletionHandler() {
+                                        @Override
+                                        public void complete(String oFileLocation, ResponseInfo info, org.json.JSONObject oJson) {
+                                            if (info.isOK()) {
+                                                String oUrl;
+                                                if ("".equals(imageHostCustomOutput)) {
+                                                    oUrl = oFileLocation;
+                                                } else {
+                                                    oUrl = imageHostCustomOutput.replace("{location}", oFileLocation);
+                                                }
+                                                inputPathUrl.setText(oUrl);
+                                            } else {
+                                                try {
+                                                    inputPathUrl.setText(activity.getString(R.string.upload_failed) + "API " + oJson.getString("error"));
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                    inputPathUrl.setText(activity.getString(R.string.upload_failed) + "API " + oJson.toString());
+                                                }
+                                            }
+                                        }
+                                    }, null);
+
+                                } catch (Exception e) {
+                                    // catch sdk err
+                                    e.printStackTrace();
+                                    activity.runOnUiThread(() -> inputPathUrl.setText(activity.getString(R.string.upload_failed) + "SDK " + e));
+                                }
                             }
+                            byteArrayOutputStream.close();
                         } catch (Exception e) {
                             // catch all make err
                             e.printStackTrace();
