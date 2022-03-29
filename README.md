@@ -8,8 +8,14 @@
 
 # Markor 
 
-> Support for uploading images to the image host when they are not located in the .md file's folder. Github/Gitlab repositories are currently supported as image host
-> 
+> This is an unofficial derivative of Markor
+> Support for uploading images to the image host when they are not located in the .md file's folder. Github/Gitlab repositories and Qiniu Kodo are currently supported as image host
+> Not submitting changes to the upstream is considering that Markor itself is a completely offline application, and the function of uploading to the image bed must require a network
+>
+> 这是一个 Markor 非官方衍生版本
+> 当图像不在 .md 文件的文件夹中时，支持将图像上传到图床。 目前支持 Github/Gitlab 仓库和七牛云 Kodo 作为图床
+> 不将更改提交至上游是考虑到 Markor 本身是个完全离线的应用程序，而上传到图床的功能必须需要网络
+
 <img src="/app/src/main/ic_launcher-web.png" align="left" width="128" hspace="10" vspace="10">
 <b>Text editor - Notes &amp; ToDo (for Android)</b>.
 <br/>Simple and lightweight, supporting Markdown, todo.txt, Zim & more!<br/><br/>

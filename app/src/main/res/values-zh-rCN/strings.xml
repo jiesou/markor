@@ -437,9 +437,9 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="image_host">图床</string>
     <string name="processing">处理中...</string>
     <string name="upload_failed">上传失败：</string>
-    <string name="image_host_token_description">Github https://github.com/settings/tokens\nGitlab https://gitlab.com/-/profile/personal_access_tokens\n需要有写入仓库的权限。\nQiniu https://portal.qiniu.com/user/key\n按照 AK|SK</string>
+    <string name="image_host_token_description">"Github https://github.com/settings/tokens\nGitlab https://gitlab.com/-/profile/personal_access_tokens\n需要有写入仓库的权限。\n\n七牛云 https://portal.qiniu.com/user/key\nAK SK 间使用 | 分隔。AK 在前，SK 在后。\nAK|SK "</string>
     <string name="image_host_storage">存储库</string>
-    <string name="storage_example">例如：gsantner/markor@master\n如果使用七牛云则填写空间</string>
+    <string name="storage_example">例如：gsantner/markor@master\n使用七牛云则填写空间</string>
     <string name="save_location_description">支持格式化时间。不需要扩展名\n{name}：原文件名</string>
     <string name="token">令牌</string>
     <string name="use">使用</string>

@@ -456,7 +456,7 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="processing" >Processing...</string>
     <string name="upload_failed">Upload failed: </string>
     <string name="token">Token</string>
-    <string name="image_host_token_description">Github https://github.com/settings/tokens\nGitlab https://gitlab.com/-/profile/personal_access_tokens\nRequires write access to the repository.\nQiniu https://portal.qiniu.com/user/key\nAccording to AK|SK</string>
+    <string name="image_host_token_description">Github https://github.com/settings/tokens\nGitlab https://gitlab.com/-/profile/personal_access_tokens\nRequires write access to the repository.\n\nQiniu https://portal.qiniu.com/user/key\nUse | to separate AK and SK. AK is in front, SK is behind.\nAK|SK</string>
     <string name="pref_key__image_host_token" translatable="false">pref_key__image_host_token</string>
     <string name="image_host_storage">Repository</string>
     <string name="pref_key__image_host_storage" translatable="false">pref_key__image_host_storage</string>
