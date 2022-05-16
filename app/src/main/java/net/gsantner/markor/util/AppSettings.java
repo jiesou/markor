@@ -742,11 +742,11 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
     }
 
     public void setShowDotFiles(boolean value) {
-        setBool(R.string.pref_key__show_dot_files, value);
+        setBool(R.string.pref_key__show_dot_files_v2, value);
     }
 
     public boolean isShowDotFiles() {
-        return getBool(R.string.pref_key__show_dot_files, false);
+        return getBool(R.string.pref_key__show_dot_files_v2, true);
     }
 
     public int getTabWidth() {
