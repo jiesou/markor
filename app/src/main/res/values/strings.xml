@@ -452,6 +452,7 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="share_into_format">Share into - Format</string>
     <string name="auto_format">Auto-format</string>
     <string name="insert_snippet">Insert snippet</string>
+
     <string name="image_host">Image host</string>
     <string name="processing" >Processing...</string>
     <string name="upload_failed">Upload failed: </string>

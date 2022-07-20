@@ -8,8 +8,6 @@ import android.arch.core.util.Function;
 import android.content.BroadcastReceiver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -149,9 +147,6 @@ public class AttachImageOrLinkDialog {
 
         // Inserts path relative if inside savedir, else absolute. asks to copy file if not in savedir
         final FilesystemViewerData.SelectionListener fsListener = new FilesystemViewerData.SelectionListenerAdapter() {
-            @SuppressWarnings("AlibabaAvoidManuallyCreateThread")
-            @SuppressLint("SetTextI18n")
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onFsViewerSelected(final String request, final File file, final Integer lineNumber) {
                 final String saveDir = _appSettings.getNotebookDirectoryAsStr();
