@@ -63,9 +63,6 @@ import net.gsantner.opoc.util.TextViewUndoRedo;
 
 import java.io.File;
 
-import butterknife.BindView;
-import butterknife.OnTextChanged;
-
 @SuppressWarnings({"UnusedReturnValue"})
 @SuppressLint("NonConstantResourceId")
 public class DocumentEditFragment extends GsFragmentBase implements TextFormat.TextFormatApplier {
@@ -89,20 +86,11 @@ public class DocumentEditFragment extends GsFragmentBase implements TextFormat.T
         return newInstance(new Document(path), lineNumber, false);
     }
 
-    @BindView(R.id.document__fragment__edit__highlighting_editor)
-    HighlightingEditor _hlEditor;
-
-    @BindView(R.id.document__fragment__edit__text_actions_bar)
-    ViewGroup _textActionsBar;
-
-    @BindView(R.id.document__fragment__edit__content_editor__permission_warning)
-    TextView _textSdWarning;
-
-    @BindView(R.id.document__fragment_view_webview)
-    WebView _webView;
-
-    @BindView(R.id.document__fragment__edit__content_editor__scrolling_parent)
-    DraggableScrollbarScrollView _primaryScrollView;
+    private HighlightingEditor _hlEditor;
+    private ViewGroup _textActionsBar;
+    private TextView _textSdWarning;
+    private WebView _webView;
+    private DraggableScrollbarScrollView _primaryScrollView;
 
     private AppSettings _appSettings;
     private HorizontalScrollView _hsView;
@@ -161,6 +149,12 @@ public class DocumentEditFragment extends GsFragmentBase implements TextFormat.T
             WebView.enableSlowWholeDocumentDraw();
         }
 
+        _hlEditor = view.findViewById(R.id.document__fragment__edit__highlighting_editor);
+        _textActionsBar = view.findViewById(R.id.document__fragment__edit__text_actions_bar);
+        _textSdWarning = view.findViewById(R.id.document__fragment__edit__content_editor__permission_warning);
+        _webView = view.findViewById(R.id.document__fragment_view_webview);
+        _primaryScrollView = view.findViewById(R.id.document__fragment__edit__content_editor__scrolling_parent);
+
         _shareUtil = new ShareUtil(activity);
 
         _webViewClient = new MarkorWebViewClient(activity);
@@ -208,6 +202,7 @@ public class DocumentEditFragment extends GsFragmentBase implements TextFormat.T
         final Bundle args = getArguments();
         setViewModeVisibility(args.getBoolean(START_PREVIEW, _appSettings.getDocumentPreviewState(_document.getPath())));
 
+        _loadModTime = 0; // force next load
         loadDocument();
 
         _editTextUndoRedoHelper = new TextViewUndoRedo(_hlEditor);
@@ -357,9 +352,8 @@ public class DocumentEditFragment extends GsFragmentBase implements TextFormat.T
 
     public void loadDocument() {
         //Only trigger the load process if constructing or file updated
-        final long modTime = _document.lastModified();
-        final boolean isStarted = getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED);
-        if (!isStarted || modTime > _loadModTime) {
+        final long modTime = _document != null ? _document.lastModified() : Long.MIN_VALUE;
+        if (modTime > _loadModTime) {
 
             _loadModTime = modTime;
 
@@ -692,7 +686,7 @@ public class DocumentEditFragment extends GsFragmentBase implements TextFormat.T
     public boolean saveDocument(final boolean forceSaveEmpty) {
         // Document is written iff writeable && content has changed
         final CharSequence text = _hlEditor.getText();
-        if (!_document.isContentSame(text) && checkPermissions() && _hlEditor != null && isAdded()) {
+        if (_document != null && !_document.isContentSame(text) && checkPermissions() && isAdded()) {
             if (_document.saveContent(getContext(), text, _shareUtil, forceSaveEmpty)) {
                 checkTextChangeState();
                 return true;

@@ -50,9 +50,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class FilesystemViewerAdapter extends RecyclerView.Adapter<FilesystemViewerAdapter.FilesystemViewerViewHolder> implements Filterable, View.OnClickListener, View.OnLongClickListener, Comparator<File>, FilenameFilter {
     //########################
@@ -171,13 +168,15 @@ public class FilesystemViewerAdapter extends RecyclerView.Adapter<FilesystemView
         }
 
         //String tmp = descriptionFile.getAbsolutePath().startsWith("/storage/emulated/0/") && getCurrentFolder().getAbsolutePath().startsWith("/storage/emulated/0/") ? "/storage/emulated/0/" : "";
-        holder.description.setText(!_dopt.descModtimeInsteadOfParent || holder.title.getText().toString().equals("..")
-                ? descriptionFile.getAbsolutePath() : formatFileDescription(file, _prefApp.getString("pref_key__file_description_format", "")));
         holder.description.setTextColor(ContextCompat.getColor(_context, _dopt.secondaryTextColor));
 
-        holder.image.setImageResource(isSelected ? _dopt.selectedItemImage : (!file.isFile() ? _dopt.folderImage : _dopt.fileImage));
+        holder.image.postDelayed(() -> {
+            holder.image.setImageResource(isSelected ? _dopt.selectedItemImage : (!file.isFile() ? _dopt.folderImage : _dopt.fileImage));
+            holder.description.setText(!_dopt.descModtimeInsteadOfParent || holder.title.getText().toString().equals("..")
+                    ? descriptionFile.getAbsolutePath() : formatFileDescription(file, _prefApp.getString("pref_key__file_description_format", "")));
+        }, 60);
         holder.image.setColorFilter(ContextCompat.getColor(_context,
-                isSelected ? _dopt.accentColor : _dopt.secondaryTextColor),
+                        isSelected ? _dopt.accentColor : _dopt.secondaryTextColor),
                 android.graphics.PorterDuff.Mode.SRC_ATOP);
         if (!isSelected && isFavourite) {
             holder.image.setColorFilter(Color.parseColor("#E3B51B"));
@@ -703,13 +702,9 @@ public class FilesystemViewerAdapter extends RecyclerView.Adapter<FilesystemView
         //########################
         //## UI Binding
         //########################
-        @BindView(R.id.opoc_filesystem_item__root)
         LinearLayout itemRoot;
-        @BindView(R.id.opoc_filesystem_item__image)
         ImageView image;
-        @BindView(R.id.opoc_filesystem_item__title)
         TextView title;
-        @BindView(R.id.opoc_filesystem_item__description)
         TextView description;
 
         //########################
@@ -717,7 +712,10 @@ public class FilesystemViewerAdapter extends RecyclerView.Adapter<FilesystemView
         //########################
         FilesystemViewerViewHolder(View row) {
             super(row);
-            ButterKnife.bind(this, row);
+            itemRoot = row.findViewById(R.id.opoc_filesystem_item__root);
+            image = row.findViewById(R.id.opoc_filesystem_item__image);
+            title = row.findViewById(R.id.opoc_filesystem_item__title);
+            description = row.findViewById(R.id.opoc_filesystem_item__description);
         }
     }
 }
