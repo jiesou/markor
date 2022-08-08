@@ -20,7 +20,8 @@ $(DIST_DIR):
 ANDROID_BUILD_TOOLS := $(shell test -n "$ANDROID_SDK_ROOT" && find "${ANDROID_SDK_ROOT}/build-tools" -iname "aapt" | sort -r | head -n1 | xargs dirname)
 TOOL_SPELLCHECKING_ISPELL := $(shell command -v ispell 2> /dev/null)
 
-FLAVOR := $(or ${FLAVOR},${FLAVOR},Default)
+#FLAVOR := $(or ${FLAVOR},${FLAVOR},Default)
+FLAVOR := Default
 
 .NOTPARALLEL: gradle gradle-analyze-log
 gradle: env-ANDROID_SDK_ROOT

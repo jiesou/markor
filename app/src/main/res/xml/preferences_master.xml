@@ -291,6 +291,10 @@
                 android:summary="@string/image_compression_rate_100_no_compression"
                 android:title="@string/image_compress"
                 app:min="0" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="@string/pref_key__image_use_webp"
+                android:title="@string/image_use_webp" />
         </PreferenceCategory>
 
         <PreferenceCategory android:title="@string/backup">

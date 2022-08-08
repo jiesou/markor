@@ -168,7 +168,12 @@ public class AttachImageOrLinkDialog {
                             }
                             String fullFileName = file.getName();
                             String fileName = FilenameUtils.getBaseName(fullFileName);
-                            String fileExtension = FilenameUtils.getExtension(fullFileName);
+                            String fileExtension;
+                            if (_appSettings.getImageUseWebp()) {
+                                fileExtension = "webp";
+                            } else {
+                                fileExtension = FilenameUtils.getExtension(fullFileName);
+                            }
                             // image compression
                             int compressionRate = _appSettings.getImageCompressionRate();
                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

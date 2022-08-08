@@ -240,6 +240,8 @@ public class AppSettings extends SharedPreferencesPropertyBackend {
 
     public int getImageCompressionRate() { return getInt(R.string.pref_key__image_compression_rate, 20); }
 
+    public boolean getImageUseWebp() { return getBool(R.string.pref_key__image_use_webp, false); }
+
     public String getLanguage() {
         return getString(R.string.pref_key__language, "");
     }

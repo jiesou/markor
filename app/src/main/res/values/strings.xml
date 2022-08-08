@@ -472,4 +472,6 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="pref_key__image_host_custom_output" translatable="false">pref_key__image_host_custom_output</string>
     <string name="custom_output_description">Customize the output link after image upload, leave it blank and use Github/lab RAW\n{repo}: repository and owner (e.g. gsantner/markor)\n{branch}: branch of the repository\n{location}: relative path to upload\nFor example, to use JsDelivr as an image CDN, set it to\nhttps://cdn.jsdelivr.net/gh/{repo}@{branch}/{location}\n\nIf using Qiniu, only {location} is available\nFor example: https://cdn.exemple.com/{location}</string>
     <string name="custom_image_host_output" >Custom image host output</string>
+    <string name="pref_key__image_use_webp" translatable="false">pref_key__image_use_webp</string>
+    <string name="image_use_webp">Compress as Webp</string>
 </resources>

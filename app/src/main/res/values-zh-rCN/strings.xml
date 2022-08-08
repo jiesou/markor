@@ -449,4 +449,5 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="image_compression_rate_100_no_compression">设置上传前的图片压缩率，设为 100 即不压缩，支持 JPEG 和 WebP</string>
     <string name="custom_output_description">自定义图片上传后的输出链接，留空则使用 Github/lab RAW\n{repo}: 仓库和所有者（例如 gsantner/markor）\n{branch}: 仓库分支\n{location}：上传的相对路径\n例如，要使用 JsDelivr 作为图片 CDN，请将其设置为\nhttps://cdn.jsdelivr.net/gh/{repo}@{branch}/{location}\n\n如果使用七牛云则只有 {location} 可用\n例如：https://cdn.example.com/{location}</string>
     <string name="custom_image_host_output">自定义图床输出</string>
+    <string name="image_use_webp">编码为 Webp</string>
 </resources>
